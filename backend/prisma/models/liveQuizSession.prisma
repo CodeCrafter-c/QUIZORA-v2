@@ -1,0 +1,26 @@
+enum LiveQuizStatus {
+  WAITING
+  LIVE
+  ENDED
+}
+
+model LiveQuizSession {
+  id        String @id @default(cuid())
+  quizId    String
+  startedBy String
+
+  joinCode String @unique
+  status   LiveQuizStatus @default(WAITING)
+
+  startedAt DateTime?
+  endedAt   DateTime?
+
+  quiz    Quiz    @relation(fields: [quizId],   references: [id])
+  starter User    @relation(fields: [startedBy],  references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([quizId])
+  @@index([startedBy])
+}
