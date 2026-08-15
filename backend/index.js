@@ -9,6 +9,7 @@ import database from "./shared/db/prisma.js";
 import { globalErrorHandler } from "./shared/middlewares/globalErrorHandler.js";
 import authRouter from "./src/modules/auth/routes/authRoutes.js";
 import quizRouter from "./src/modules/quiz/routes/quizRoutes.js";
+import liveQuizRouter from "./src/modules/live-quiz-sessions/routes/liveQuizRoutes.js";
 
 const app = express();
 
@@ -45,6 +46,8 @@ app.get("/health", async (req, res, next) => {
 // Routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/quiz",quizRouter);
+app.use("/api/v1/live-quiz",liveQuizRouter);
+
 // 404 handler
 app.use((req, res, next) => {
   next(new NotFoundError(`Route ${req.originalUrl} not found`));
