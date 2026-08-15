@@ -4,6 +4,12 @@ enum Gender {
   other
 }
 
+enum AuthProvider {
+  credentials
+  google
+  github
+}
+
 model User {
   id        String  @id @default(cuid())
   firstName String
@@ -11,6 +17,8 @@ model User {
   gender    Gender?
   email     String  @unique
   password  String?
+  provider  AuthProvider @default(credentials)
+  providerId String? @unique
 
   sessions         Session[]
   quizzes          Quiz[]
