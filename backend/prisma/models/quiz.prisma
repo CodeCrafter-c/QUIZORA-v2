@@ -1,8 +1,10 @@
 model Quiz {
   id        String @id @default(cuid())
   title     String
-  createdBy String
+  description String?
+  category String?
   quizData  Json
+  createdBy String
 
   creator User @relation(fields:[createdBy],    references: [id] )
 

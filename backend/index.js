@@ -2,12 +2,13 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-
+import cookieParser from "cookie-parser";
 import { NotFoundError } from "./shared/errors/app-error.js";
 import { sendSuccess } from "./shared/responses/response.js";
 import database from "./shared/db/prisma.js";
 import { globalErrorHandler } from "./shared/middlewares/globalErrorHandler.js";
 import authRouter from "./src/modules/auth/routes/authRoutes.js";
+import quizRouter from "./src/modules/quiz/routes/quizRoutes.js";
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cookieParser());
 // Health check
 app.get("/health", async (req, res, next) => {
   try {
@@ -43,7 +44,7 @@ app.get("/health", async (req, res, next) => {
 
 // Routes
 app.use("/api/v1/auth", authRouter);
-
+app.use("/api/v1/quiz",quizRouter);
 // 404 handler
 app.use((req, res, next) => {
   next(new NotFoundError(`Route ${req.originalUrl} not found`));

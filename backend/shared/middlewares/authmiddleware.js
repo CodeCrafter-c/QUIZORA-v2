@@ -4,7 +4,7 @@ import { UnauthorizedError } from "../errors/app-error.js";
 import {
     accessTokenCookie,
     refreshTokenCookie
-} from "../config/cookies.js";
+} from "../../config/cookie.js";
 
 const authRepository = new AuthRepository();
 const tokenService = new TokenService();
@@ -21,7 +21,7 @@ const authenticate = async function (req, res, next) {
 
         try {
             decodedToken = tokenService.verifyAccessToken(accessToken);
-
+            
             req.user = decodedToken;
             return next();
 

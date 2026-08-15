@@ -1,4 +1,4 @@
-import { ValidationError } from "../../../../shared/errors/app-error.js";
+import { ValidationError } from "../errors/app-error.js";
 
 const validate = function (schema, source = "body") {
     return function (req, res, next) {

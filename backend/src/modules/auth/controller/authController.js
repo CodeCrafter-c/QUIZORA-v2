@@ -51,7 +51,7 @@ class AuthController {
     }
 
     async handleLogin(userData, res) {
-        const loginUser = await this.service.login(userData);
+        const loginUser = await this.service.login({...userData,type:"credentials"});
 
         res.cookie(
             "accessToken",
