@@ -1,11 +1,11 @@
 import { sendSuccess } from "../../../../shared/responses/response.js";
-
+import { accessTokenCookie, refreshTokenCookie } from "../../../../config/cookie.js";
 class AuthController {
     constructor(AuthService) {
-        if(!AuthService){
+        if (!AuthService) {
             console.log("this is required")
         }
-        this.service = new AuthService()
+        this.service = AuthService
     }
     async register(req, res, next) {
         try {
@@ -20,6 +20,60 @@ class AuthController {
             next(error)
         }
     }
+    async login(req, res, next) {
+        try {
+            const userData = {
+                ...req.body,
+                ...req.query
+            };
+
+            await this.handleLogin(userData, res);
+
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async googleCallback(req, res, next) {
+        try {
+            
+            await this.handleLogin(
+                {
+                    type: "google",
+                    ...req.query
+                },
+                res
+            );
+
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async handleLogin(userData, res) {
+        const loginUser = await this.service.login(userData);
+
+        res.cookie(
+            "accessToken",
+            loginUser.accessToken,
+            accessTokenCookie
+        );
+
+        res.cookie(
+            "refreshToken",
+            loginUser.refreshToken,
+            refreshTokenCookie
+        );
+
+        return sendSuccess(res, {
+            statusCode: 200,
+            message: "User logged in successfully",
+            data: {
+                user: loginUser.user
+            }
+        });
+    }
 }
+
 
 export default AuthController;

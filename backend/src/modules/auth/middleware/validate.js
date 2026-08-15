@@ -1,8 +1,8 @@
 import { ValidationError } from "../../../../shared/errors/app-error.js";
 
-const validate = function (schema) {
+const validate = function (schema, source = "body") {
     return function (req, res, next) {
-        const result = schema.safeParse(req.body);
+        const result = schema.safeParse(req[source]);
 
         if (!result.success) {
             const message = result.error.issues
@@ -12,7 +12,9 @@ const validate = function (schema) {
             return next(new ValidationError(message));
         }
 
-        req.body = result.data;
+        res.locals.validated = res.locals.validated || {};
+        res.locals.validated[source] = result.data;
+
         next();
     };
 };
