@@ -53,10 +53,4 @@ class GoogleStrategy {
     }
 }
 
-const url = googleClient.generateAuthUrl({
-    access_type: "offline",
-    scope: ["openid", "email", "profile"],
-});
-
-console.log(url);
 export default GoogleStrategy;

@@ -7,19 +7,19 @@ class AuthRepository {
 
     // find user by id
     async findUserById(id) {
-    return await this.client.user.findUnique({
-        where: { id },
-        select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            gender: true,
-            email: true,
-            createdAt: true,
-            updatedAt: true,
-        },
-    });
-}
+        return await this.client.user.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                gender: true,
+                email: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+    }
 
     // find user by email
     async findUserByEmail(email) {
@@ -30,19 +30,19 @@ class AuthRepository {
 
     // create User
     async createUser(userData) {
-    return await this.client.user.create({
-        data: userData,
-        select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            gender: true,
-            email: true,
-            createdAt: true,
-            updatedAt: true,
-        },
-    });
-}
+        return await this.client.user.create({
+            data: userData,
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                gender: true,
+                email: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+    }
 
     // create session
     async createSession(sessionData) {
@@ -58,8 +58,11 @@ class AuthRepository {
         });
     }
 
-    
-
+    async findSessionByJti(jti) {
+        return await this.client.session.findUnique({
+            where: { jti },
+        });
+    }
     // update session
     async updateSession(id, data) {
         return await this.client.session.update({

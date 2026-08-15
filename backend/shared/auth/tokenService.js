@@ -41,6 +41,11 @@ class TokenService {
             .update(token)
             .digest("hex");
     }
+
+    compareToken(token, tokenHash) {
+        const hashedToken = this.hashToken(token);
+        return hashedToken === tokenHash;
+    }
 }
 
 export default TokenService;
